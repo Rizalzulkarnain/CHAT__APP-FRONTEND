@@ -1,0 +1,85 @@
+@import '../../../../assets/scss/_variables';
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  height: 60px;
+  background-color: $bg-main;
+  padding: 0 10px;
+
+  h2 {
+    display: flex;
+    align-self: center;
+    color: $white;
+  }
+
+  .profile__menu {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    height: 100%;
+    position: relative;
+    cursor: pointer;
+
+    img {
+      margin-right: 10px;
+      width: 40px;
+      height: 40px;
+    }
+
+    p {
+      display: flex;
+      align-self: center;
+      color: $white;
+    }
+
+    .caret__down {
+      color: $white;
+      margin-left: 8px;
+    }
+
+    .profile__options {
+      position: absolute;
+      top: 53px;
+      border-radius: 5px;
+      padding: 0 5px;
+      border: 1px solid #d9d9d9;
+      background-color: $white;
+      z-index: 9999;
+
+      p {
+        margin: 10px;
+        color: black;
+      }
+    }
+
+    form {
+      padding: 20px;
+
+      .input__field {
+        input,
+        select {
+          height: 40px;
+          width: 100%;
+          box-sizing: border-box;
+        }
+      }
+    }
+  }
+
+  .button__close {
+    border: 1px solid black;
+    border-radius: 2px;
+    color: black;
+    cursor: pointer;
+    font-weight: 600;
+  }
+
+  .button__success {
+    background: $success;
+    border: none;
+    color: $white;
+    cursor: pointer;
+    font-weight: 600;
+  }
+}
