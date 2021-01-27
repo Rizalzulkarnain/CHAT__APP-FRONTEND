@@ -4,16 +4,13 @@ import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { logoutAction } from '../../../../redux/actions/authActions';
 
-import ImageMale from '../../../../assets/images/male.svg';
-import ImageFeMale from '../../../../assets/images/female.svg';
 import Modal from '../Modal/Modal';
 
 import './Navbar.scss';
 
 const Navbar = () => {
-  const userLogin = useSelector((state) => state.auth);
-  const { user } = userLogin;
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.auth.user);
 
   const [showProfileOptions, setShowProfileOptions] = useState(false);
   const [showProfileModal, setShowProfileModal] = useState(false);
@@ -22,41 +19,40 @@ const Navbar = () => {
   const [lastname, setLastname] = useState(user.lastname);
   const [gender, setGender] = useState(user.gender);
   const [email, setEmail] = useState(user.email);
-  const [password, setPassword] = useState('');
+  const [password, setPassword] = useState(user.password);
   const [avatar, setAvatar] = useState('');
 
   const history = useHistory();
-
-  const handleProfileOptions = () => {
-    setShowProfileOptions((prevState) => !prevState);
-  };
 
   const handleLogout = () => {
     dispatch(logoutAction());
     history.push('/login');
   };
 
-  const imageRender = () => {
-    if (user.avatar === null && user.gender === 'male') {
-      return <img src={ImageMale} alt="avatar" />;
-    } else if (user.avatar === null && user.gender === 'female') {
-      return <img src={ImageFeMale} alt="avatar" />;
-    } else {
-      return <img src={user.avatar} alt="avatar" />;
-    }
-  };
-
-  const handleSubmit = (e) => {
+  const submitForm = (e) => {
     e.preventDefault();
 
-    console.log('submit');
+    const form = { firstname, lastname, email, gender, password, avatar };
+
+    const formData = new FormData();
+
+    for (const key in form) {
+      formData.append(key, form[key]);
+    }
   };
 
   return (
     <div className="navbar card-shadow">
       <h2>Chat in Browser</h2>
-      <div className="profile__menu" onClick={handleProfileOptions}>
-        {imageRender()}{' '}
+      <div
+        className="profile__menu"
+        onClick={() =>
+          setShowProfileOptions(
+            (prevShowProfileOptions) => !prevShowProfileOptions
+          )
+        }
+      >
+        <img src={user.avatar} alt="avatar" />
         <p>
           {user.firstname} {user.lastname}
         </p>
@@ -73,7 +69,7 @@ const Navbar = () => {
               <h3 className="mb-0">Update Profile</h3>
             </Fragment>
             <Fragment key="body">
-              <form onSubmit={handleSubmit}>
+              <form>
                 <div className="input__field mb-1">
                   <input
                     type="text"
@@ -107,18 +103,23 @@ const Navbar = () => {
                     onChange={(e) => setGender(e.target.value)}
                     type="text"
                   >
-                    <option>Select Gender</option>
                     <option value="male">Male</option>
                     <option value="female">Female</option>
                   </select>
                 </div>
 
-                <div className="input__field mb-2">
+                <div className="input__field mb-1">
                   <input
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    placeholder="Password"
+                  />
+                </div>
+
+                <div className="input__field mb-2">
+                  <input
+                    type="file"
+                    onChange={(e) => setAvatar(e.target.files[0])}
                   />
                 </div>
               </form>
@@ -131,13 +132,7 @@ const Navbar = () => {
                 close
               </button>
 
-              <button
-                className="button__success"
-                type="submit"
-                disabled={
-                  !firstname && !lastname && !email && !gender && !password
-                }
-              >
+              <button className="button__success" onClick={submitForm}>
                 Update Profile
               </button>
             </Fragment>

@@ -7,22 +7,20 @@ export const loginAction = (email, password) => async (dispatch) => {
       type: Type.LOGIN_REQUEST,
     });
 
-    const res = await API.login(email, password);
-    localStorage.setItem(`user`, JSON.stringify(res.data.data));
-    localStorage.setItem(
-      `token`,
-      JSON.stringify(`Bearer ${res.data.data.token}`)
-    );
+    const { data } = await API.login(email, password);
+    console.log(data);
+    localStorage.setItem(`user`, JSON.stringify(data.data.user));
+    localStorage.setItem(`token`, JSON.stringify(`Bearer ${data.data.token}`));
 
     dispatch({
       type: Type.LOGIN_SUCCESS,
       payload: {
-        firstname: res.data.data.firstname,
-        lastname: res.data.data.lastname,
-        email: res.data.data.email,
-        gender: res.data.data.gender,
-        avatar: res.data.data.avatar,
-        token: res.data.data.token,
+        firstname: data.data.user.firstname,
+        lastname: data.data.user.lastname,
+        email: data.data.user.email,
+        gender: data.data.user.gender,
+        avatar: data.data.user.avatar,
+        token: data.data.token,
         isLoggedIn: true,
       },
     });

@@ -2,7 +2,7 @@ import { produce } from 'immer';
 import * as Type from '../constants/authConstants';
 
 const authState = {
-  loading: true,
+  loading: false,
   user: JSON.parse(localStorage.getItem(`user`)) || {},
   register: {},
   token: JSON.parse(localStorage.getItem(`token`)) || '',

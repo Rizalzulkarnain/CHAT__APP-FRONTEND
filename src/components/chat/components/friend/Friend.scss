@@ -1,0 +1,43 @@
+.friend__list {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px;
+  cursor: pointer;
+  flex-direction: column;
+  min-width: fit-content;
+
+  @media (min-width: 800px) {
+    flex-direction: row;
+  }
+
+  & > div {
+    display: flex;
+
+    img {
+      display: flex;
+      align-self: center;
+      margin-right: 5px;
+    }
+
+    .friend__info {
+      display: flex;
+      align-self: center;
+      flex-direction: column;
+    }
+  }
+
+  .friend__status {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .online__status__offline {
+      border-radius: 50%;
+      border: solid 5px gray;
+    }
+    .online__status__online {
+      border-radius: 50%;
+      border: solid 5px green;
+    }
+  }
+}
